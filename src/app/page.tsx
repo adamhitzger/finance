@@ -1,113 +1,159 @@
+import { Button } from "@/components/ui/button";
+import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Steps, Words } from "@/types";
 import Image from "next/image";
+import Contact from "@/components/contact";
+
+type Cards = {
+  imgUrl?: string;
+  className?: string;
+  title: string;
+  subtitle: string;
+  content: string | React.ReactNode;
+}
+
+function Cards({ title, subtitle, content, className, imgUrl }: Cards) {
+  return (
+    <Card className={cn(className)}>
+      <CardHeader>
+        <CardTitle className="text-5xl">{title}</CardTitle>
+        <CardDescription className="text-lg">{subtitle}</CardDescription>
+        <hr />
+      </CardHeader>
+      <CardContent className=" text-2xl">
+        <p>{content}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 export default function Home() {
+  const words: Words[] = [
+    {
+      text: "Pomůžeme",
+    },
+    {
+      text: "Vám",
+    },
+    {
+      text: "s",
+    },
+    {
+      text: " financemi.",
+      className: "text-amber-800",
+    }
+  ];
+
+  const steps: Steps[] = [
+    {
+      imgUrl: "/img/target.png",
+      title: "První schůzka",
+      subtitle: "Vaše situace",
+      content: "Seznámení se a společná analýza vašich přání a cílů. Zhodnocení dosud využívaných produktů i finančních možností. Společná definice zadání pro vytvoření finančního plánu.",
+    },
+    {
+      imgUrl: "/img/plan.png",
+      title: "Druhá schůzka",
+      subtitle: "Stanovení priorit a plánů",
+      content: "Prezentace prvních návrhů osobního finančního plánu. Diskuze nad předloženými variantami. Výběr optimální cesty a její případné úpravy. Společná dohoda o dalším postupu. Dejte nám důvěru a my uděláme vše, abychom předčili vaše očekávání.",
+    },
+    {
+      imgUrl: "/img/coins-chart.png",
+      title: "Další schůzky",
+      subtitle: "Řešení",
+      content: "Nastavování stávajících i nových finančních produktů podle osobního finančního plánu. Průběžné upozorňování na důležité termíny, změny a novinky. Pravidelné aktualizace osobního finančního plánu.",
+    },
+  ];
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="min-h-screen">
+      {/** Header Something about us*/}
+      <section className="flex p-10 items-center w-full min-h-screen bg-[url('/img/demo-header.jpg')]">
+        <div className="flex flex-col justify-start w-full text-justify">
+          <TypewriterEffectSmooth words={words} />
+          <div className="w-full md:w-1/2 flex flex-col gap-y-4">
+            <p className="text-xl leading-relaxed lg:text-2xl ">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fuga sit id esse labore repudiandae perspiciatis, deserunt accusamus dolor magnam ipsum debitis minus at asperiores amet eveniet suscipit et dignissimos molestiae.</p>
+            <Button variant="destructive" size="lg" className="w-1/2 px-4 py-2 backdrop-blur-sm border border-black rounded-md hover:shadow-[0px_0px_4px_4px_rgba(0,0,0,0.1)] bg-white/[0.2] text-sm transition duration-200" asChild>
+              <Link href="/#contact" className="text-xl">Kontaktujte nás</Link>
+            </Button>
+          </div>
         </div>
-      </div>
+      </section>
+      {/**Our service */}
+      <section className="p-10 w-full bg-skin">
+        <div className="flex flex-col w-full gap-x-8">
+          <h1 className="text-center text-6xl my-5">Naše služby</h1>
+          <p className="text-center text-xl">Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+          <div className="flex flex-wrap flex-row gap-y-10 place-content-center sm:gap-x-10 m-10">
+            <Cards
+              title="Naše služby"
+              subtitle="Námi nabízené finanční služby"
+              content={
+                <>
+                  <ul className="list-disc list-inside">
+                    <li>Finančního plánování a analýzy</li>
+                    <li>Správy investic</li>
+                    <li>Účetnictví</li>
+                    <li>Daňového poradenství</li>
+                  </ul>
+                </>
+              }
+              className="w-fit"
+            />
+            <Cards
+              title="Naše specializace"
+              subtitle="Připravíme Vás do budoucna"
+              content={
+                <>
+                  <ul className="list-disc list-inside">
+                    <li>Zajištění přijmů</li>
+                    <li>Financování bydlení</li>
+                    <li>Penze</li>
+                    <li>Investice</li>
+                    <li>Ochrana majetku</li>
+                  </ul>
+                </>
+              }
+              className="w-fit"
+            />
+          </div>
+          <Button variant="destructive" size="lg" className="m-auto w-1/3 px-5 py-2 backdrop-blur-sm border border-black rounded-md hover:shadow-[0px_0px_4px_4px_rgba(0,0,0,0.1)] bg-white/[0.2] text-sm transition duration-200" asChild>
+            <Link href="/about-us" className="text-lg">Zjistěte o nás více</Link>
+          </Button>
+        </div>
+      </section >
+      {/**How to be our client */}
+      <section className="p-10 w-full bg-skin text-center">
+        <h1 className="my-10 text-5xl">Jak se stát naším klientem</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 items-center my-10 gap-y-10 md:gap-x-14">
+          {steps.map((step, index) => (
+            <div key={index} className="flex flex-col my-5">
+              <Image src={step.imgUrl} alt={step.imgUrl} width={180} height={180} className="m-auto" />
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+              <Cards
+                title={step.title}
+                subtitle={step.subtitle}
+                content={step.content}
+                className="border-none text-justify"
+              />
+            </div>
+          ))}
+        </div>
+        <Button variant="destructive" size="lg" className="m-auto w-1/2 sm:w-1/3 px-5 py-2 backdrop-blur-sm border border-black rounded-md hover:shadow-[0px_0px_4px_4px_rgba(0,0,0,0.1)] bg-white/[0.2] text-sm transition duration-200" asChild>
+          <Link href="/#contact" className="text-2xl">Obraťte se na nás</Link>
+        </Button>
+      </section>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <Contact />
     </main>
   );
 }

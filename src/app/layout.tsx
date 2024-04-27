@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
+import ResponziveBar from "@/components/navbar";
+import Footer from "@/components/footer";
+import Credit from "@/components/credit";
 
-const inter = Inter({ subsets: ["latin"] });
+const nimbus = localFont({
+  src: "./nimbusreg.woff2",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +24,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className={cn(
+          "min-h-screen bg-background antialiased tracking-wider",
+          nimbus.className
+        )}>
+          <ResponziveBar />
+          {children}
+          <Footer />
+          <Credit />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
