@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
 import ResponziveBar from "@/components/navbar";
 import Footer from "@/components/footer";
 import Credit from "@/components/credit";
@@ -24,22 +23,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body className={cn(
-          "min-h-screen bg-background antialiased tracking-wider",
-          nimbus.className
-        )}>
-          <ResponziveBar />
-          {children}
-          <Footer />
-          <Credit />
-        </body>
-      </ThemeProvider>
+
+      <body className={cn(
+        "min-h-screen bg-background antialiased tracking-wider",
+        nimbus.className
+      )}>
+        <ResponziveBar />
+        {children}
+        <Footer />
+        <Credit />
+      </body>
     </html>
   );
 }

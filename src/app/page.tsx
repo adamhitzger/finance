@@ -127,14 +127,14 @@ export default function Home() {
             />
           </div>
           <Button variant="destructive" size="lg" className="m-auto w-1/3 px-5 py-2 backdrop-blur-sm border border-black rounded-md hover:shadow-[0px_0px_4px_4px_rgba(0,0,0,0.1)] bg-white/[0.2] text-sm transition duration-200" asChild>
-            <Link href="/about-us" className="text-lg">Zjistěte o nás více</Link>
+            <Link href="/about-us" className="text-2xl">Zjistěte o nás více</Link>
           </Button>
         </div>
       </section >
       {/**How to be our client */}
       <section className="p-10 w-full bg-skin text-center">
         <h1 className="my-10 text-5xl">Jak se stát naším klientem</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 items-center my-10 gap-y-10 md:gap-x-14">
+        <div className="grid grid-cols-1 lg:grid-cols-3 items-center my-10 gap-y-10 md:gap-x-14">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col my-5">
               <Image src={step.imgUrl} alt={step.imgUrl} width={180} height={180} className="m-auto" />
