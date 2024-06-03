@@ -1,43 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
-import { cn } from "@/lib/utils";
+import { Cards } from '@/components/reviewCard';
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Steps, Words } from "@/types";
+import { Words, CardType } from "@/types";
 import Image from "next/image";
 import Contact from "@/components/contact";
+import { StarRating } from "@/lib/utils";
+import { supabase } from "@/lib/db/client";
 
-type Cards = {
-  imgUrl?: string;
-  className?: string;
-  title: string;
-  subtitle: string;
-  content: string | React.ReactNode;
-}
-
-function Cards({ title, subtitle, content, className, imgUrl }: Cards) {
-  return (
-    <Card className={cn(className)}>
-      <CardHeader>
-        <CardTitle className="text-5xl">{title}</CardTitle>
-        <CardDescription className="text-lg">{subtitle}</CardDescription>
-        <hr />
-      </CardHeader>
-      <CardContent className=" text-2xl">
-        <p>{content}</p>
-      </CardContent>
-    </Card>
-  );
-}
+export const dynamic = "force-dynamic";
 
 
-export default function Home() {
+export default async function Home() {
+  const { data, error } = await supabase.from("reviews").select("*").order("id", { ascending: false });
   const words: Words[] = [
     {
       text: "Pomůžeme",
@@ -54,7 +29,7 @@ export default function Home() {
     }
   ];
 
-  const steps: Steps[] = [
+  const steps: CardType[] = [
     {
       imgUrl: "/img/target.png",
       title: "První schůzka",
@@ -137,7 +112,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 items-center my-10 gap-y-10 md:gap-x-14">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col my-5">
-              <Image src={step.imgUrl} alt={step.imgUrl} width={180} height={180} className="m-auto" />
+              <Image src={step.imgUrl!} alt={step.imgUrl!} width={180} height={180} className="m-auto" />
 
               <Cards
                 title={step.title}
@@ -152,8 +127,22 @@ export default function Home() {
           <Link href="/#contact" className="text-2xl">Obraťte se na nás</Link>
         </Button>
       </section>
-
-      <Contact />
+      <section className='min-h-screen flex flex-col p-10 gap-y-5'>
+        <h1 className="text-center text-5xl pb-5">Reference</h1>
+        <h2 className="text-center text-2xl">Reference mluví za nás. Odrážejí skutečné zkušenosti a spokojenost našich klientů a kvality našich služeb.</h2>
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
+          {data &&
+            data.map((review) => (
+              <Cards key={review.id} id={review.id} title={<StarRating rating={review.stars} />} subtitle={review.fullname} content={review.content} />
+            ))}
+        </div>
+      </section>
+      <section className='my-10 mx-5'>
+        <h1 className="text-center text-5xl pb-5">První krok.
+          K prvnímu kroku.</h1>
+        <h2 className="text-center text-2xl">Rádi se vám ozveme a domluvíme si s Vámi schůzku.</h2>
+        <Contact />
+      </section>
     </main>
   );
 }

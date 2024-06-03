@@ -1,82 +1,36 @@
 "use client";
-import * as THREE from 'three';
-import React, { useEffect, useState, Suspense, useRef, useLayoutEffect, useMemo, MouseEvent } from 'react';
+
+import React, { useState, useRef, useTransition } from 'react';
 import { motion } from "framer-motion";
-import { Canvas, ThreeEvent, useLoader } from '@react-three/fiber';
-import { SVGLoader } from 'three-stdlib';
-import { MapControls, OrbitControls, Shape, Sphere } from '@react-three/drei';
 import emailjs from "@emailjs/browser";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import process from 'process';
+import { Button } from './ui/button';
+import Map, { Marker } from "react-map-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const hoveredCursor =
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBjbGlwLXBhdGg9InVybCgjY2xpcDApIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyNi41IiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIvPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzIgMzJMMzIgNDVIMzNMMzMgMzJINDVWMzFIMzNWMTlIMzJWMzFIMTlWMzJIMzJaIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik0xLjk2MjMxIDEuOTYyMzFMMTMuNzAzMyA1LjEwODI5TDUuMTA4MjkgMTMuNzAzM0wxLjk2MjMxIDEuOTYyMzFaIiBmaWxsPSJibGFjayIvPjwvZz48ZGVmcz48Y2xpcFBhdGggaWQ9ImNsaXAwIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IndoaXRlIi8+PC9jbGlwUGF0aD48L2RlZnM+PC9zdmc+'
 const defaultCursor =
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBjbGlwLXBhdGg9InVybCgjY2xpcDApIj48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyNi41IiBzdHJva2U9ImJsYWNrIi8+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0zMiAzMkw0MS4xOTI0IDQxLjE5MjRMNDEuODk5NSA0MC40ODUzTDMyLjcwNzEgMzEuMjkyOUw0MS4xOTI0IDIyLjgwNzZMNDAuNDg1MyAyMi4xMDA1TDMyIDMwLjU4NThMMjMuNTE0NyAyMi4xMDA1TDIyLjgwNzYgMjIuODA3NkwzMS4yOTI5IDMxLjI5MjlMMjIuMTAwNSA0MC40ODUzTDIyLjgwNzYgNDEuMTkyNEwzMiAzMloiIGZpbGw9ImJsYWNrIi8+PHBhdGggZD0iTTUuMzY3MTEgMTIuNzM3M0wyLjY2OTQyIDIuNjY5NDJMMTIuNzM3MyA1LjM2NzExTDUuMzY3MTEgMTIuNzM3M1oiIHN0cm9rZT0iYmxhY2siLz48L2c+PGRlZnM+PGNsaXBQYXRoIGlkPSJjbGlwMCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSJ3aGl0ZSIvPjwvY2xpcFBhdGg+PC9kZWZzPjwvc3ZnPg=='
 
-function Cell({ color, shape, fillOpacity }: { color: THREE.Color, shape: THREE.Shape, fillOpacity: any }) {
-    const [hovered, hover] = useState(false)
-    useEffect(() => void (document.body.style.cursor = hovered ? `url('${hoveredCursor}'), pointer` : `url('${defaultCursor}'), auto`), [
-        hovered
-    ])
-    return (
-        <mesh onPointerOver={(e) => hover(true)} onPointerOut={() => hover(false)}>
-            <meshBasicMaterial color={hovered ? 'hotpink' : color} opacity={fillOpacity} depthWrite={false} transparent />
-            <Shape args={[shape]} />
-        </mesh>
-    )
-}
-
-function Svg({ url }: { url: string }) {
-    const { paths } = useLoader(SVGLoader, url)
-    const shapes = useMemo(
-        () => paths.flatMap((p) => p.toShapes(true).map((shape) => ({
-            shape,
-            color: p.color,
-            fillOpacity: p?.userData?.style?.fillOpacity
-        }))),
-        [paths]
-    )
-
-    const ref = useRef<THREE.Group>(null!);
-    useLayoutEffect(() => {
-        const sphere = new THREE.Box3().setFromObject(ref.current).getBoundingSphere(new THREE.Sphere())
-        ref.current.position.set(-sphere.center.x, -sphere.center.y, 0)
-    }, [])
-
-    return (
-        <group ref={ref}>
-            {shapes.map((props) => (
-                <Cell key={props.shape.uuid} {...props} />
-            ))}
-        </group>
-    )
-}
-
 export default function Contact() {
-    const formRef = useRef(null);
-
+    const formRef = useRef<HTMLFormElement>(null);
     const [form, setForm] = useState({
         fullname: "",
         email: "",
         phone: "",
-        msg: ""
-    })
-
-    const [isLoading, setIsLoading] = useState(false);
+        msg: "",
+    });
+    const [lng, setLng] = useState<number>(15.5764);
+    const [lat, setLat] = useState<number>(49.6071);
+    const [zoom, setZoom] = useState<number>(14.5);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value })
-    };
-
-    const showToast = (
-        company: string, adress: string, phone: string
-    ) => {
-        toast.info(`Název: ${company},\n Adresa: ${adress},\n Telefon: ${phone}.`, {
-            position: "top-center",
-        });
     };
 
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
@@ -88,7 +42,7 @@ export default function Contact() {
             process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_TEMPLATE_ID!,
             {
                 from_name: form.fullname,
-                to_name: "Jiří",
+                to_name: "Dva Životy",
                 from_email: form.email,
                 to_email: "arena@arenaapartmentshb.cz",
                 message: form.phone + "\n" + form.msg
@@ -148,7 +102,7 @@ export default function Contact() {
                                 <textarea className=" w-full p-2" name='msg' id='msg' value={form.msg} onChange={handleChange} required></textarea>
                             </div>
                             <div className="text-xl font-semibold ">
-                                <button className="border-2 px-5 py-3 rounded-[20px] bg-green-500" type="submit" disabled={isLoading}>{isLoading ? "Odesílám..." : "Odeslat"}</button>
+                                <Button className="border px-5 py-3 rounded-[10px]" type="submit" disabled={isLoading}>{isLoading ? "Odesílám..." : "Odeslat"}</Button>
                             </div>
                         </form>
                     </div>
@@ -161,13 +115,13 @@ export default function Contact() {
                                     <span className="underline underline-offset-4">Adresa:</span>
                                 </div>
                                 <div>
-                                    <span>Jihlavská 895, Havlíčkův Brod, 580 01</span>
+                                    <span>Beckovského 2045, Havlíčkův Brod, 580 01</span>
                                 </div>
                             </div>
 
                             <div className="flex flex-row my-3 justify-end">
                                 <div className="pr-5">
-                                    <span className="underline underline-offset-4">Recepce:</span>
+                                    <span className="underline underline-offset-4">Telefonní číslo:</span>
                                 </div>
                                 <div>
                                     <span>+420 606 838 786</span>
@@ -179,21 +133,23 @@ export default function Contact() {
                                     <span className="underline underline-offset-4">E-mail:</span>
                                 </div>
                                 <div>
-                                    <span >arena<br />@arenaapartmentshb.cz</span>
+                                    <span >dvazivoty@dvazivoty.cz</span>
                                 </div>
                             </div>
                         </div>
                         {/*Mapa*/}
                         <div className="py-4 h-96">
-                            <Canvas frameloop="demand" orthographic camera={{ position: [0, 0, 50], zoom: 2, up: [0, 0, 2], far: 1000 }} className='rounded-[20px]'>
-                                <Suspense fallback={null}>
-                                    <Sphere args={[8]} material-color="brown" position={[-82, -320, 1]} onClick={(event) =>
-                                        showToast("Well Managed Finance", "Beckovského", "606 838 786")} />
-
-                                    <Svg url="/img/map.svg" />
-                                </Suspense>
-                                <MapControls enableRotate={false} />
-                            </Canvas>
+                            <Map
+                                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN!}
+                                initialViewState={{
+                                    longitude: lng,
+                                    latitude: lat,
+                                    zoom: zoom,
+                                }}
+                                mapStyle="mapbox://styles/mapbox/streets-v12"
+                            >
+                                <Marker longitude={lng} latitude={lat} anchor='bottom' color="red" />
+                            </Map>
                         </div>
                     </div>
 

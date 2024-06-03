@@ -11,9 +11,18 @@ export interface Words {
     className?: string;
 }
 
-export interface Steps {
-    imgUrl: string;
-    title: string;
+export interface CardType {
+    id?: number;
+    imgUrl?: string;
+    className?: string;
+    title: string | React.ReactNode;
     subtitle: string;
-    content: string  | React.ReactNode;
-}
+    content: string | React.ReactNode;
+  }
+
+  export interface Review {
+    id: number;
+    fullname: string;
+    content: string;
+    stars: number;
+  }

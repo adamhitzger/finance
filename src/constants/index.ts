@@ -14,8 +14,11 @@ export const navLinks: NavLink[] = [
         label:"Recenze",
       },
       {
-        route: "/#contact",
+        route: "#contact",
         label:"Kontaktujte nás",
       },
-      
+      {
+        route: "/sign-in",
+        label: "Přihlásit se", 
+      }
 ];

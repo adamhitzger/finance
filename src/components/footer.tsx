@@ -14,7 +14,7 @@ export default function Footer() {
                             <h2>Financial Gurus &copy; {currentYear}. All Rights Reserved.</h2>
                         </div>
 
-                        <div className="text-right grid grid-rows-4 justify-end lg:grid-cols-4 font-light">
+                        <div className="text-right grid grid-cols-1 justify-end lg:grid-cols-5 font-light">
                             {navLinks.map((nav, index) => (
                                 <div key={index} className="p-3">
 
