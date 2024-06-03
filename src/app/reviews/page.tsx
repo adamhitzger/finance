@@ -5,7 +5,6 @@ import { Cards } from '@/components/reviewCard';
 import Link from 'next/link'
 import Contact from '@/components/contact';
 import { StarRating } from '@/lib/utils';
-export const dynamic = "force dynamic";
 
 export default async function Reviews() {
     const { data, error } = await supabase.from("reviews").select("*").order("id", { ascending: false });
