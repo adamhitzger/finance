@@ -1,7 +1,7 @@
 import AddReview from '@/components/add-review'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/db/client';
-import { Cards } from '@/components/reviewCard';
+import { Cards, ReviewCards } from '@/components/reviewCard';
 import Link from 'next/link'
 import Contact from '@/components/contact';
 import { StarRating } from '@/lib/utils';
@@ -10,7 +10,7 @@ export default async function Reviews() {
     const { data, error } = await supabase.from("reviews").select("*").order("id", { ascending: false });
 
 
-
+    console.log(data)
     return (
         <main className="min-h-screen">
             <section className="flex p-10 items-center w-full min-h-screen bg-[url('/img/money.png')] bg-repeat bg- bg-center">
@@ -32,7 +32,7 @@ export default async function Reviews() {
                 <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                     {data &&
                         data.map((review) => (
-                            <Cards key={review.id} id={review.id} title={<StarRating rating={review.stars} />} subtitle={review.fullname} content={review.content} />
+                            <ReviewCards key={review.id} id={review.id} title={<StarRating rating={review.stars} />} subtitle={review.fullname} content={review.content} imgUrl={review?.imageUrl} />
                         ))}
                 </div>
                 <hr />

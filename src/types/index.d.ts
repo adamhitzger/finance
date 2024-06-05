@@ -12,7 +12,6 @@ export interface Words {
 }
 
 export interface CardType {
-    id?: number;
     imgUrl?: string;
     className?: string;
     title: string | React.ReactNode;
@@ -20,9 +19,14 @@ export interface CardType {
     content: string | React.ReactNode;
   }
 
+export interface ReviewCardType extends CardType{
+    id: number;
+}
+
   export interface Review {
     id: number;
     fullname: string;
+    image: string;
     content: string;
     stars: number;
   }

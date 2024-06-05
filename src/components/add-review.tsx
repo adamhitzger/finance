@@ -25,6 +25,7 @@ export default function AddReview({ initialData }: Readonly<Props>) {
     const [form, setForm] = useState({
         id: initialData?.id,
         fullname: initialData?.fullname || "",
+        image: initialData?.image || "",
         content: initialData?.content || "",
         stars: initialData?.stars || "",
     });
@@ -44,6 +45,7 @@ export default function AddReview({ initialData }: Readonly<Props>) {
             setForm({
                 id: 0,
                 fullname: "",
+                image: "",
                 content: "",
                 stars: "",
             })
@@ -56,6 +58,7 @@ export default function AddReview({ initialData }: Readonly<Props>) {
             setForm({
                 id: 0,
                 fullname: "",
+                image: "",
                 content: "",
                 stars: "",
             })
@@ -70,6 +73,12 @@ export default function AddReview({ initialData }: Readonly<Props>) {
                 </div>
                 <div className="mb-5 border-b-2 border-solid border-black">
                     <input className=" w-full p-2" type="text" name='fullname' id='fullname' value={form.fullname} onChange={handleChange} required />
+                </div>
+                <div className="text-2xl my-5">
+                    <label htmlFor="image">Url adresa obrázku: <i>https://www...</i></label>
+                </div>
+                <div className="mb-5 border-b-2 border-solid border-black">
+                    <input className=" w-full p-2" type="text" name='image' id='image' value={form.image} onChange={handleChange} />
                 </div>
                 <div className="text-2xl my-5">
                     <label htmlFor="stars">Hodnocení</label>

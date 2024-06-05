@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
-import { Cards } from '@/components/reviewCard';
+import { Cards, ReviewCards } from '@/components/reviewCard';
 import Link from "next/link";
 import { Words, CardType } from "@/types";
 import Image from "next/image";
@@ -35,20 +35,24 @@ export default async function Home() {
       title: "První schůzka",
       subtitle: "Vaše situace",
       content: "Seznámení se a společná analýza vašich přání a cílů. Zhodnocení dosud využívaných produktů i finančních možností. Společná definice zadání pro vytvoření finančního plánu.",
+
     },
     {
       imgUrl: "/img/plan.png",
       title: "Druhá schůzka",
       subtitle: "Stanovení priorit a plánů",
       content: "Prezentace prvních návrhů osobního finančního plánu. Diskuze nad předloženými variantami. Výběr optimální cesty a její případné úpravy. Společná dohoda o dalším postupu. Dejte nám důvěru a my uděláme vše, abychom předčili vaše očekávání.",
+
     },
     {
       imgUrl: "/img/coins-chart.png",
       title: "Další schůzky",
       subtitle: "Řešení",
       content: "Nastavování stávajících i nových finančních produktů podle osobního finančního plánu. Průběžné upozorňování na důležité termíny, změny a novinky. Pravidelné aktualizace osobního finančního plánu.",
+
     },
   ];
+  console.log(data)
   return (
     <main className="min-h-screen">
       {/** Header Something about us*/}
@@ -133,7 +137,7 @@ export default async function Home() {
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
           {data &&
             data.map((review) => (
-              <Cards key={review.id} id={review.id} title={<StarRating rating={review.stars} />} subtitle={review.fullname} content={review.content} />
+              <ReviewCards key={review.id} id={review.id} title={<StarRating rating={review.stars} />} subtitle={review.fullname} content={review.content} imgUrl={review?.imageUrl} />
             ))}
         </div>
       </section>

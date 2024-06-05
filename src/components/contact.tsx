@@ -146,7 +146,7 @@ export default function Contact() {
                                     latitude: lat,
                                     zoom: zoom,
                                 }}
-                                mapStyle="mapbox://styles/mapbox/streets-v12"
+                                mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                             >
                                 <Marker longitude={lng} latitude={lat} anchor='bottom' color="red" />
                             </Map>

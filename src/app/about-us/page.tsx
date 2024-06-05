@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import Contact from '@/components/contact'
+import ImageSlider from '@/components/imageSlider'
 
 type PositionType = "left" | "right";
 
@@ -89,12 +90,16 @@ export default function AboutUs() {
                     ))}
                 </div>
             </section>
+            <section>
+                <ImageSlider />
+            </section>
             <section className='my-10 mx-5'>
                 <h1 className="text-center text-5xl pb-5">První krok.
                     K prvnímu kroku.</h1>
                 <h2 className="text-center text-2xl">Rádi se vám ozveme a domluvíme si s Vámi schůzku.</h2>
                 <Contact />
             </section>
+
         </main>
     )
 }

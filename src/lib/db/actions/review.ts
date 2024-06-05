@@ -7,16 +7,18 @@ import { redirect } from "next/navigation";
 export async function createReview(formData: FormData){
     try{
         const fullname = String(formData.get("fullname"));
+        const image = String(formData.get("image"));
         const content = String(formData.get("content"));
         const stars = Number(formData.get("stars"));
 
         const {data, error} = await supabase.from("reviews").insert({
             fullname: fullname,
+            imageUrl: image,
             created_at: new Date().toISOString(),
             content: content,
             stars: stars,
         });
-        console.log(fullname + "|" + content + "|" + stars)
+        console.log(fullname + "|" + image + "|"+ content + "|" + stars)
     }catch(error){
         console.error(error); 
     }
@@ -26,6 +28,7 @@ export async function createReview(formData: FormData){
 export async function updateReview(formData: FormData){
         const id = Number(formData.get("id"));
         const fullname = String(formData.get("fullname"));
+        const image = String(formData.get("image"));
         const content = String(formData.get("content"));
         const stars = Number(formData.get("stars"));
 
@@ -34,6 +37,7 @@ export async function updateReview(formData: FormData){
         const {data, error} = await supabase.from("reviews").update({
             id: id,
             fullname: fullname,
+            imageUrl: image,
             created_at: new Date().toISOString(),
             content: content,
             stars: stars,
