@@ -20,7 +20,7 @@ interface MemberProps {
 function Articles({ name, position, email, phone, image, description, imagePosition }: MemberProps) {
     return (
         <>
-            <article className={`flex ${imagePosition === "right" ? "flex-row" : "flex-row-reverse"} w-full`}>
+            <article className={`flex flex-wrap md:flex-nowrap ${imagePosition === "right" ? "flex-row" : "flex-row-reverse"} w-full`}>
                 <div className={`w-full lg:w-1/2 p-5 lg:my-20 ${imagePosition === "right" ? "text-left" : "text-right"}`}>
                     <h3 className='text-3xl border-b-2 border-b-brown shadow-lg shadow-brown-500/50'>{name}</h3>
                     <span className='text-md text-brown'>{position}</span>
@@ -30,7 +30,7 @@ function Articles({ name, position, email, phone, image, description, imagePosit
                     <span className='text-md text-brown'>Telefonní číslo: {phone}</span>
                 </div>
                 <div className={`flex ${imagePosition === "right" ? "justify-end" : "justify-start"} w-full lg:w-1/2 p-5 rounded-xl`}>
-                    <div className='relative w-full '>
+                    <div className='relative w-full py-40 lg:py-0'>
                         <Image src={image} alt={name + "\n" + description} fill={true} sizes='(max-width: 768px) 200vw, (max-width: 1200px) 50vw, 33vw' className='object-contain overflow-hidden' />
                     </div>
 

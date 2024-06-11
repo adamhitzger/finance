@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useTransition } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import process from 'process';
 import { Button } from './ui/button';
@@ -23,9 +23,9 @@ export default function Contact() {
         phone: "",
         msg: "",
     });
-    const [lng, setLng] = useState<number>(15.5764);
-    const [lat, setLat] = useState<number>(49.6071);
-    const [zoom, setZoom] = useState<number>(14.5);
+    const [lng, setLng] = useState<number>(15.5746);
+    const [lat, setLat] = useState<number>(49.6067);
+    const [zoom, setZoom] = useState<number>(16);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,7 +47,7 @@ export default function Contact() {
                 to_email: "arena@arenaapartmentshb.cz",
                 message: form.phone + "\n" + form.msg
             },
-            process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+            process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
         ).then(() => {
             setIsLoading(false);
             setForm({

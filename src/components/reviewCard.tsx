@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getUser } from "@/lib/db/auth";
 import { cn } from "@/lib/utils";
-import { CardType, ReviewCardType } from "@/types"
+import { ReviewCardType } from "@/types"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,21 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { deleteReview } from "@/lib/db/actions/review";
 import Image from "next/image";
-export function Cards({ title, subtitle, content, className }: CardType) {
 
-    return (
-        <Card className={cn("backdrop-blur-sm", className)}>
-            <CardHeader>
-                <CardTitle className="text-5xl">{title}</CardTitle>
-                <CardDescription className="text-lg">{subtitle}</CardDescription>
-                <hr />
-            </CardHeader>
-            <CardContent className=" text-2xl flex justify-between">
-                {content}
-            </CardContent>
-        </Card>
-    );
-}
 
 export async function ReviewCards({ id, title, subtitle, content, className, imgUrl }: ReviewCardType) {
     const user = await getUser();
