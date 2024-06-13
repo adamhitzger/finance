@@ -19,14 +19,12 @@ import Image from "next/image";
 export async function ReviewCards({ id, title, subtitle, content, className, imgUrl }: ReviewCardType) {
     const user = await getUser();
     return (
-        <Card className={cn("backdrop-blur-sm", className)}>
+        <Card className={cn("ring-1 ring-skin isolate bg-white/0  shadow-lg backdrop-blur-3xl", className)}>
             <CardHeader>
                 <CardTitle className="text-5xl">
                     <div className="w-full flex justify-between items-center">
                         {imgUrl &&
                             <Image src={imgUrl} alt={imgUrl} width={144} height={144} className="rounded-full object-center" />
-
-
                         }
 
                         {title}

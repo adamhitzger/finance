@@ -44,7 +44,7 @@ export default function Contact() {
                 from_name: form.fullname,
                 to_name: "Dva Životy",
                 from_email: form.email,
-                to_email: "arena@arenaapartmentshb.cz",
+                to_email: "dvazivoty@dvazivoty.cz",
                 message: form.phone + "\n" + form.msg
             },
             process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!

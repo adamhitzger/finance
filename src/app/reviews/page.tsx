@@ -1,7 +1,7 @@
 import AddReview from '@/components/add-review'
 import { Button } from '@/components/ui/button'
 import { supabase } from '@/lib/db/client';
-import { Cards, ReviewCards } from '@/components/reviewCard';
+import { ReviewCards } from '@/components/reviewCard';
 import Link from 'next/link'
 import Contact from '@/components/contact';
 import { StarRating } from '@/lib/utils';
